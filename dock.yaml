@@ -12,9 +12,11 @@
      ignore_errors: yes
    - name: Build Docker image from Dockerfile
      docker_image:
-        path: /home/ubuntu/jdir/workspace/job2
-        name: demo
-        tag: latest
+       build:
+         path: /home/ubuntu/jdir/workspace/job2
+       name: demo
+       tag: latest
+       source: local
    - name: create container out of the demo image
      command: docker run -d -p 8080:8080 --name c1 demo
 
