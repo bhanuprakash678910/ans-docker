@@ -16,7 +16,7 @@
          path: /home/ubuntu/jdir/workspace/job2
        name: demo
        tag: latest
-       source: local
+       source: build
    - name: create container out of the demo image
      command: docker run -d -p 8080:8080 --name c1 demo
 
