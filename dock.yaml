@@ -10,13 +10,22 @@
    - name: remove demo image
      command: docker rmi demo
      ignore_errors: yes
+   - name: Copy Dockerfile from Jenkins workspace to remote node
+     copy:
+       src: /home/ubuntu/jdir/workspace/job2/Dockerfile
+       dest: /tmp/Dockerfile  # Path to copy the Dockerfile on remote node
+
+   - name: Copy other necessary files (if required)
+     copy:
+        src: /home/ubuntu/jdir/workspace/job2/*  # Directory containing other build files
+        dest: /tmp  # Copy to remote node
+        remote_src: no
    - name: Build Docker image from Dockerfile
      docker_image:
        build:
-         path: /home/ubuntu/jdir/workspace/job2
+         path: /tmp
        name: demo
        tag: latest
        source: build
    - name: create container out of the demo image
      command: docker run -d -p 8080:8080 --name c1 demo
-
