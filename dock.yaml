@@ -11,8 +11,25 @@
    - name: remove demo image
      command: docker rmi demo
      ignore_errors: yes
-   - name: create demo image
-     command: docker build -t demo .
-   - name: create container out of the demo image
-     command: docker run -d -p 8080:8080 --name c1 demo
+   - name: Ensure the Dockerfile exists in Jenkins workspace
+      stat:
+        path: /home/ubuntu/jdir/workspace/job2/Dockerfile
+      register: dockerfile_exists
+
+    - name: Fail if Dockerfile is not present
+      fail:
+        msg: "Dockerfile not found in Jenkins workspace!"
+      when: not dockerfile_exists.stat.exists
+
+    - name: Build Docker image from Dockerfile
+      docker_image:
+        path: /home/ubuntu/jdir/workspace/job2
+        name: demo
+        tag: latest
+      when: dockerfile_exists.stat.exists
+    - name: Display success message
+      debug:
+        msg: "Docker image 'my_app_image:latest' successfully built from the Dockerfile."
+    - name: create container out of the demo image
+      command: docker run -d -p 8080:8080 --name c1 demo
 
