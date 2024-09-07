@@ -1,0 +1,18 @@
+---
+ - hosts: ubuntu
+   become_user: ansible 
+   tasks:
+   - name: stop c1 container
+     command: docker stop c1
+     ignore_errors: yes
+   - name: remove c1 container
+     command: docker rm c1
+     ignore_errors: yes
+   - name: remove demo image
+     command: docker rmi demo
+     ignore_errors: yes
+   - name: create demo image
+     command: docker build -t demo .
+   - name: create container out of the demo image
+     command: docker run -d -p 8080:8080 --name c1 demo
+
