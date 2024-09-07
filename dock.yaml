@@ -27,4 +27,4 @@
        tag: latest
        source: build
    - name: create container out of the demo image
-     command: docker run -d -p 8080:8080 --name c1 demo
+     command: docker run -d -p 8085:8080 --name c1 demo
