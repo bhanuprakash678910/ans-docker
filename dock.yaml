@@ -1,6 +1,5 @@
 ---
  - hosts: ubuntu
-   become_user: ansible 
    tasks:
    - name: stop c1 container
      command: docker stop c1
@@ -21,15 +20,15 @@
         msg: "Dockerfile not found in Jenkins workspace!"
      when: not dockerfile_exists.stat.exists
 
-    - name: Build Docker image from Dockerfile
-      docker_image:
+   - name: Build Docker image from Dockerfile
+     docker_image:
         path: /home/ubuntu/jdir/workspace/job2
         name: demo
         tag: latest
-      when: dockerfile_exists.stat.exists
-    - name: Display success message
-      debug:
+     when: dockerfile_exists.stat.exists
+   - name: Display success message
+     debug:
         msg: "Docker image 'my_app_image:latest' successfully built from the Dockerfile."
-    - name: create container out of the demo image
-      command: docker run -d -p 8080:8080 --name c1 demo
+   - name: create container out of the demo image
+     command: docker run -d -p 8080:8080 --name c1 demo
 
