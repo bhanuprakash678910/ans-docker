@@ -17,9 +17,8 @@
 
    - name: Copy other necessary files (if required)
      copy:
-        src: /home/ubuntu/jdir/workspace/job2/*  # Directory containing other build files
-        dest: /tmp  # Copy to remote node
-        remote_src: no
+        src: /home/ubuntu/jdir/workspace/job2/  # Directory containing other build files
+        dest: /tmp/  # Copy to remote node
    - name: Build Docker image from Dockerfile
      docker_image:
        build:
